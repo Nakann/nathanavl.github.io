@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Nathan Avenel</title>
+    <style>
+        :root {
+            --primary: #2563eb; /* Bleu professionnel */
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --text-gray: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+
+        /* Navigation */
+        nav { background: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        nav .logo { font-weight: bold; font-size: 1.5rem; color: var(--primary); }
+        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav a { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
+        nav a:hover { color: var(--primary); }
+
+        /* Hero Section */
+        .hero { padding: 4rem 5%; text-align: center; background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--dark); }
+        .hero p { font-size: 1.25rem; color: var(--text-gray); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn { display: inline-block; padding: 0.8rem 2rem; background: var(--primary); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background 0.3s; }
+        .btn:hover { background: #1d4ed8; }
+
+        /* Sections Générales */
+        section { padding: 4rem 5%; }
+        h2 { text-align: center; margin-bottom: 3rem; font-size: 2rem; position: relative; }
+        h2::after { content: ''; display: block; width: 50px; height: 3px; background: var(--primary); margin: 10px auto; }
+
+        /* Compétences */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .skill-card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
+        .skill-card h3 { margin-bottom: 1rem; color: var(--primary); }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+        .tag { background: #e0f2fe; color: #0369a1; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem; }
+
+        /* Portfolio / Projets */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .project-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s; }
+        .project-card:hover { transform: translateY(-5px); }
+        .project-content { padding: 1.5rem; }
+        .project-content h3 { margin-bottom: 0.5rem; }
+        .project-content p { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 1rem; }
+        .project-meta { font-size: 0.85rem; color: var(--primary); font-weight: bold; margin-bottom: 0.5rem; }
+
+        /* Parcours */
+        .timeline { max-width: 800px; margin: 0 auto; border-left: 2px solid var(--primary); padding-left: 2rem; }
+        .timeline-item { margin-bottom: 2rem; position: relative; }
+        .timeline-item::before { content: ''; width: 15px; height: 15px; background: var(--primary); border-radius: 50%; position: absolute; left: -2.6rem; top: 5px; }
+        .date { font-size: 0.9rem; color: var(--text-gray); }
+        .job-title { font-weight: bold; font-size: 1.1rem; }
+
+        /* Footer */
+        footer { background: var(--dark); color: white; text-align: center; padding: 2rem; }
+        .contact-info { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            nav ul { display: none; } /* Simplification pour l'exemple */
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Nathan Avenel</div>
+        <ul>
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#skills">Compétences</a></li>
+            <li><a href="#portfolio">Projets</a></li>
+            <li><a href="#parcours">Parcours</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>Étudiant en Science des Données</h1>
+        <p>Spécialisé en conception d'outils décisionnels (BI) et visualisation de données. Je transforme les données brutes en stratégies exploitables.</p>
+    </header>
+
+    <section id="about">
+        <h2>À propos de moi</h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <p>
+                Actuellement en <strong>BUT Science des Données</strong> (Parcours Visualisation et Conception d’Outils Décisionnels) à l'IUT de Vannes, je combine des compétences techniques en statistique et programmation avec une vision business.
+            </p>
+            <br>
+            <p>
+                Mon objectif est d'aider les entreprises à valoriser leur patrimoine de données à travers le cycle complet : 
+                <strong>Traiter</strong> (ETL, SQL), <strong>Analyser</strong> (Python, R), et <strong>Restituer</strong> (Power BI, Dashboards).
+            </p>
+        </div>
+    </section>
+
+    <section id="skills" style="background-color: #fff;">
+        <h2>Compétences Techniques</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>Business Intelligence</h3>
+                <div class="tags">
+                    <span class="tag">Power BI</span>
+                    <span class="tag">DAX</span>
+                    <span class="tag">R-Shiny</span>
+                    <span class="tag">Tableaux de bord</span>
+                    <span class="tag">Reporting</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>Programmation & Data</h3>
+                <div class="tags">
+                    <span class="tag">Python (Scraping, Pandas)</span>
+                    <span class="tag">SQL / PL-SQL</span>
+                    <span class="tag">SAS</span>
+                    <span class="tag">RStudio</span>
+                    <span class="tag">VBA Excel</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>Gestion de Données</h3>
+                <div class="tags">
+                    <span class="tag">ETL Talend</span>
+                    <span class="tag">Oracle SGBD</span>
+                    <span class="tag">Modélisation relationnelle</span>
+                    <span class="tag">RGPD</span>
+                    <span class="tag">Qualité des données</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>Soft Skills & Langues</h3>
+                <div class="tags">
+                    <span class="tag">Gestion de projet</span>
+                    <span class="tag">Anglais B2 (Technique)</span>
+                    <span class="tag">Travail en équipe</span>
+                    <span class="tag">Communication</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <h2>Projets Réalisés</h2>
+        <div class="projects-grid">
+
+            <div class="project-card">
+                <div class="project-content">
+                    <div class="project-meta">Stage / Alternance - NCA Environnement</div>
+                    <h3>Application Webgis NCA</h3>
+                    <p>Développement d'une application cartographique permettant de visualiser les affaires en France, d'exploiter les données historiques et d'afficher diverses couches (limites communales, bassins versants, projets éoliens).</p>
+                    <div class="tags">
+                        <span class="tag">WebGIS</span>
+                        <span class="tag">Cartographie</span>
+                        <span class="tag">SIG</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <div class="project-meta">Datathon - Groupe Mat! & Orange Business</div>
+                    <h3>Analyse de l'efficacité commerciale</h3>
+                    <p>Étude des performances des commandes réalisées via un commercial sur place par rapport aux commandes par téléphone ou portail web.</p>
+                    <div class="tags">
+                        <span class="tag">Datathon</span>
+                        <span class="tag">Analyse de données</span>
+                        <span class="tag">Business Intelligence</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <div class="project-meta">Projet Associatif - La maison du droit</div>
+                    <h3>Système de gestion de cas et statistiques</h3>
+                    <p>Conception d'une base de données pour les demandes de renseignements et développement d'une application Python Streamlit pour la gestion et la visualisation statistique.</p>
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Streamlit</span>
+                        <span class="tag">Base de données</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <div class="project-meta">Projet Académique - Programmation Web Python</div>
+                    <h3>Tracker de skins Counter Strike</h3>
+                    <p>Développement d'un outil de surveillance des cours des skins CS et création de statistiques, utilisant Python et 3 frameworks web différents.</p>
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Web</span>
+                        <span class="tag">Statistiques</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="project-content">
+                    <div class="project-meta">Entreprise (Stage/Projet)</div>
+                    <h3>Mise en place d’un outil décisionnel - Newcold</h3>
+                    <p>Chef de projet pour une équipe de 6. Nettoyage de données complexes sur Excel et conception d'un tableau de bord interactif sous Power BI pour le suivi de performance.</p>
+                    <div class="tags">
+                        <span class="tag">Power BI</span>
+                        <span class="tag">Management</span>
+                        <span class="tag">Excel</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <div class="project-meta">Projet Académique (SAÉ 3.VCOD.01)</div>
+                    <h3>Collecte automatisée de données Web</h3>
+                    <p>Développement de scripts Python pour l'extraction automatique de données (Web Scraping), structuration et stockage pour analyse ultérieure.</p>
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Web Scraping</span>
+                        <span class="tag">Automatisation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <div class="project-meta">Partenariat Vannes Agglo (SAÉ 1.06)</div>
+                    <h3>Étude statistique par enquête</h3>
+                    <p>Réalisation d'un questionnaire via Sphynx, collecte des réponses et analyses descriptives pour fournir des indicateurs clés à l'agglomération.</p>
+                    <div class="tags">
+                        <span class="tag">Statistiques descriptives</span>
+                        <span class="tag">Sphynx</span>
+                        <span class="tag">Analyse d'enquête</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-content">
+                    <div class="project-meta">Projet Technique (SAÉ 2.01/1.01)</div>
+                    <h3>Architecture de Base de Données</h3>
+                    <p>Conception du schéma relationnel, implémentation SQL et création de reportings basés sur les données extraites du SGBD.</p>
+                    <div class="tags">
+                        <span class="tag">SQL</span>
+                        <span class="tag">Modélisation</span>
+                        <span class="tag">Reporting</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="parcours" style="background-color: #fff;">
+        <h2>Mon Parcours</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="date">Juillet 2025 - Aujourd'hui</div>
+                <div class="job-title">Alternance Data & WebGIS</div>
+                <p>NCA Environnement. Amélioration de l'application WebGIS de visualisation d'affaires, intégration de nouvelles données cartographiques (limites communales, bassins versants, éolien) et capitalisation sur les affaires précédentes.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="date">Avril 2025 - Juin 2025</div>
+                <div class="job-title">Stage de 2ème année</div>
+                <p>NCA Environnement. Conception et développement d'une application WebGIS permettant de cartographier et suivre les affaires en France.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="date">2023 - 2026 (En cours)</div>
+                <div class="job-title">BUT Science des Données (VCOD)</div>
+                <p>IUT de Vannes. Spécialisation en visualisation, conception d'outils décisionnels, Big Data et programmation statistique.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="date">2022 - 2023</div>
+                <div class="job-title">Licence SNIO</div>
+                <p>UBS Lorient. Systèmes numériques et informatique embarquée.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="date">Expériences Saisonnières</div>
+                <div class="job-title">Équipier Polyvalent & Agent de Conditionnement</div>
+                <p>McDonald's (Vannes) & Celtys. Développement de l'adaptabilité et du travail en équipe sous pression.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <h2>Restons en contact</h2>
+        <div class="contact-info">
+            <span>📧 nathaven56@gmail.com</span>
+            <span>📞 +33 7 68 76 39 79</span>
+            <span>📍 Vannes, France</span>
+            <span>🚗 Permis B</span>
+        </div>
+        <div style="margin-top: 2rem; font-size: 0.8rem; color: #aaa;">
+            2026 Nathan Avenel
+        </div>
+    </footer>
+
+</body>
+</html>
