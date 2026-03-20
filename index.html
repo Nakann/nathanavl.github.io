@@ -1,323 +1,1272 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Nathan Avenel</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nathan AVENEL — Portfolio</title>
+    <meta name="description" content="Portfolio de Nathan AVENEL — Science des Données & Conception Logicielle" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- React CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        :root {
-            --primary: #2563eb; /* Bleu professionnel */
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --text-gray: #64748b;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        
-        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #020617;
+            color: #e2e8f0;
+        }
 
-        /* Navigation */
-        nav { background: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        nav .logo { font-weight: bold; font-size: 1.5rem; color: var(--primary); }
-        nav ul { display: flex; list-style: none; gap: 2rem; }
-        nav a { text-decoration: none; color: var(--dark); font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: var(--primary); }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-        /* Hero Section */
-        .hero { padding: 4rem 5%; text-align: center; background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); }
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--dark); }
-        .hero p { font-size: 1.25rem; color: var(--text-gray); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-        .btn { display: inline-block; padding: 0.8rem 2rem; background: var(--primary); color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background 0.3s; }
-        .btn:hover { background: #1d4ed8; }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
 
-        /* Sections Générales */
-        section { padding: 4rem 5%; }
-        h2 { text-align: center; margin-bottom: 3rem; font-size: 2rem; position: relative; }
-        h2::after { content: ''; display: block; width: 50px; height: 3px; background: var(--primary); margin: 10px auto; }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
 
-        /* Compétences */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-        .skill-card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
-        .skill-card h3 { margin-bottom: 1rem; color: var(--primary); }
-        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
-        .tag { background: #e0f2fe; color: #0369a1; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem; }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
 
-        /* Portfolio / Projets */
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .project-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s; }
-        .project-card:hover { transform: translateY(-5px); }
-        .project-content { padding: 1.5rem; }
-        .project-content h3 { margin-bottom: 0.5rem; }
-        .project-content p { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 1rem; }
-        .project-meta { font-size: 0.85rem; color: var(--primary); font-weight: bold; margin-bottom: 0.5rem; }
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
 
-        /* Parcours */
-        .timeline { max-width: 800px; margin: 0 auto; border-left: 2px solid var(--primary); padding-left: 2rem; }
-        .timeline-item { margin-bottom: 2rem; position: relative; }
-        .timeline-item::before { content: ''; width: 15px; height: 15px; background: var(--primary); border-radius: 50%; position: absolute; left: -2.6rem; top: 5px; }
-        .date { font-size: 0.9rem; color: var(--text-gray); }
-        .job-title { font-weight: bold; font-size: 1.1rem; }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-        /* Footer */
-        footer { background: var(--dark); color: white; text-align: center; padding: 2rem; }
-        .contact-info { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-            nav ul { display: none; } /* Simplification pour l'exemple */
-            .hero h1 { font-size: 2rem; }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .animate-slide-left {
+            animation: slideInLeft 0.7s ease-out forwards;
+        }
+
+        .animate-slide-right {
+            animation: slideInRight 0.7s ease-out forwards;
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #22d3ee, #3b82f6, #22d3ee);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px -15px rgba(34, 211, 238, 0.15);
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .timeline-line {
+            background: linear-gradient(to bottom, #22d3ee, #3b82f6, transparent);
+        }
+
+        /* Code block styling */
+        .code-block {
+            background: linear-gradient(135deg, #0c1222 0%, #0f172a 100%);
+            border: 1px solid #1e293b;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #22d3ee, #3b82f6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .section-visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        .hero-grid-bg {
+            background-image:
+                linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .badge-tech {
+            transition: all 0.2s ease;
+        }
+
+        .badge-tech:hover {
+            background: rgba(34, 211, 238, 0.15);
+            border-color: rgba(34, 211, 238, 0.4);
         }
     </style>
 </head>
+
 <body>
+    <div id="root"></div>
 
-    <nav>
-        <div class="logo">Nathan Avenel</div>
-        <ul>
-            <li><a href="#about">À propos</a></li>
-            <li><a href="#skills">Compétences</a></li>
-            <li><a href="#portfolio">Projets</a></li>
-            <li><a href="#perso">Projets Perso</a></li>
-            <li><a href="#parcours">Parcours</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-    <header class="hero">
-        <h1>Étudiant en Science des Données</h1>
-        <p>Spécialisé en conception d'outils décisionnels (BI) et visualisation de données. Je transforme les données brutes en stratégies exploitables.</p>
-    </header>
+        // ─────────────────────────────────────────────
+        // CONTENT DICTIONARY (FR / EN)
+        // ─────────────────────────────────────────────
+        const content = {
+            fr: {
+                nav: {
+                    about: "À propos",
+                    skills: "Compétences",
+                    projects: "Projets",
+                    timeline: "Parcours",
+                    contact: "Contact",
+                },
+                hero: {
+                    greeting: "Bonjour, je suis",
+                    name: "Nathan AVENEL",
+                    title: "Science des Données & Conception Logicielle",
+                    subtitle: "Je transforme les données brutes en insights stratégiques et en applications visuelles percutantes.",
+                    location: "Vannes, France",
+                    contact: "Me contacter",
+                    cv: "Télécharger CV",
+                    status: "Étudiant alternant",
+                },
+                about: {
+                    sectionTitle: "À propos",
+                    sectionSubtitle: "Qui suis-je ?",
+                    text: "Actuellement en BUT Science des Données (Parcours Visualisation et Conception d'Outils Décisionnels) à l'IUT de Vannes, je combine des compétences techniques en statistique et programmation avec une vision business. Mon objectif est d'aider les entreprises à valoriser leur patrimoine de données à travers le cycle complet :",
+                    cycle: ["Traiter (ETL, SQL)", "Analyser (Python, R)", "Restituer (Power BI, Dashboards)"],
+                    codeComment: "// nathan_avenel.js",
+                    codeContent: `const nathanAvenel = {
+  nom: "Nathan AVENEL",
+  age: 21,
+  formation: "BUT Science des Données (VCOD)",
+  localisation: "Vannes, France",
+  alternance: "NCA Environnement",
+  passions: ["Data", "WebGIS", "Design"],
+  disponible: true,
+};`,
+                },
+                skills: {
+                    sectionTitle: "Compétences",
+                    sectionSubtitle: "Mon stack technique",
+                    categories: [
+                        {
+                            title: "Analyse & Statistiques",
+                            icon: "bar-chart-3",
+                            items: [
+                                "Statistique descriptive",
+                                "Méthodes factorielles (ACP, AFC)",
+                                "Classification",
+                                "Modélisation (Tests d'hypothèses, Régression linéaire)",
+                                "SAS",
+                                "R Studio",
+                                "Outils mathématiques (probabilités, algèbre linéaire)",
+                            ],
+                        },
+                        {
+                            title: "Business Intelligence",
+                            icon: "layout-dashboard",
+                            items: [
+                                "Power BI",
+                                "Power Query (DAX)",
+                                "R-Shiny",
+                                "Tableaux de bord (Dash, Flask, Streamlit)",
+                                "Excel",
+                                "VBA-Excel",
+                            ],
+                        },
+                        {
+                            title: "Ingénierie & BDD",
+                            icon: "database",
+                            items: [
+                                "SQL / PL-SQL",
+                                "SGBD (Oracle, Access, MySQL, DBeaver)",
+                                "Modélisation (Schéma relationnel, en flocon)",
+                                "ETL Talend",
+                                "Librairies Python (pandas, polars)",
+                            ],
+                        },
+                        {
+                            title: "Développement & Autres",
+                            icon: "code-2",
+                            items: [
+                                "Python",
+                                "C",
+                                "HTML/CSS",
+                                "Javascript",
+                                "SIG (QGIS, WebGIS)",
+                                "RGPD",
+                                "Anglais B2 - TOEIC 785/990",
+                            ],
+                        },
+                    ],
+                },
+                projects: {
+                    sectionTitle: "Projets",
+                    sectionSubtitle: "Mes réalisations",
+                    featured: {
+                        label: "Projet Phare",
+                        title: "Application WebGIS — NCA Environnement",
+                        description: "Développement d'un outil cartographique (WebGIS) permettant de visualiser les affaires de NCA en France, d'exploiter les données historiques et d'afficher diverses couches géographiques (limites communales, bassins versants).",
+                        tags: ["WebGIS", "JavaScript", "Leaflet", "Python", "SQL"],
+                    },
+                    others: [
+                        {
+                            title: "Statistiques E-Sport CS2",
+                            description: "Analyse approfondie de matchs pro via variables croisées. Module de visualisation de scénarios de jeu en 3D.",
+                            tags: ["Python", "Pandas", "awpy", "3D"],
+                        },
+                        {
+                            title: "Outil Décisionnel Newcold",
+                            description: "Chef de projet (équipe de 6). Nettoyage de données complexes et conception d'un tableau de bord interactif sous Power BI.",
+                            tags: ["Power BI", "DAX", "Gestion de projet"],
+                        },
+                        {
+                            title: "Analyse efficacité commerciale",
+                            description: "Datathon pour Orange Business & Groupe MAT!. Étude des performances terrain vs web/téléphone.",
+                            tags: ["Datathon", "Python", "Analyse"],
+                        },
+                        {
+                            title: "Gestion — Maison du Droit",
+                            description: "BDD et application Python Streamlit pour la gestion de cas et statistiques.",
+                            tags: ["Streamlit", "Python", "SQL"],
+                        },
+                        {
+                            title: "Architecture BDD",
+                            description: "Conception de schéma relationnel, SQL et reportings sous Oracle.",
+                            tags: ["Oracle", "SQL", "Modélisation"],
+                        },
+                        {
+                            title: "Web Scraping automatisé",
+                            description: "Scripts Python d'extraction, structuration et stockage de données web.",
+                            tags: ["Python", "BeautifulSoup", "Automatisation"],
+                        },
+                        {
+                            title: "Étude statistique Vannes Agglo",
+                            description: "Questionnaire Sphynx et analyses descriptives.",
+                            tags: ["Sphynx", "Statistiques", "R"],
+                        },
+                    ],
+                },
+                timeline: {
+                    sectionTitle: "Parcours",
+                    sectionSubtitle: "Mon parcours académique & professionnel",
+                    items: [
+                        {
+                            date: "Juil. 2025 — Aujourd'hui",
+                            title: "Alternance Data & WebGIS",
+                            place: "NCA Environnement",
+                            description: "Développement outil SIG interne, automatisation de processus, nouvelles intégrations cartographiques.",
+                            type: "work",
+                        },
+                        {
+                            date: "Avr. 2025 — Juin 2025",
+                            title: "Stage de 2ème année",
+                            place: "NCA Environnement",
+                            description: "Conception et développement d'une application WebGIS de cartographie d'affaires.",
+                            type: "work",
+                        },
+                        {
+                            date: "2023 — 2026",
+                            title: "BUT Science des Données (VCOD)",
+                            place: "IUT de Vannes",
+                            description: "Parcours Visualisation et Conception d'Outils Décisionnels.",
+                            type: "education",
+                        },
+                        {
+                            date: "2022 — 2023",
+                            title: "Licence SNIO",
+                            place: "UBS Lorient",
+                            description: "Systèmes numériques, informatique embarquée.",
+                            type: "education",
+                        },
+                        {
+                            date: "2022",
+                            title: "Baccalauréat général",
+                            place: "Lycée Jean Macé",
+                            description: "Spécialités Mathématiques & NSI.",
+                            type: "education",
+                        },
+                        {
+                            date: "2023 & 2025",
+                            title: "Emplois saisonniers",
+                            place: "McDonald's, Celtys",
+                            description: "Expériences professionnelles saisonnières.",
+                            type: "work",
+                        },
+                    ],
+                },
+                footer: {
+                    sectionTitle: "Contact",
+                    sectionSubtitle: "Restons en contact",
+                    email: "nathaven56@gmail.com",
+                    phone: "+33 7 68 76 39 79",
+                    location: "Vannes, France",
+                    license: "Permis B",
+                    interests: "Centres d'intérêt",
+                    interestsList: ["Photographie", "Informatique", "Dessin", "E-Sport"],
+                    rights: "Tous droits réservés.",
+                },
+            },
+            en: {
+                nav: {
+                    about: "About",
+                    skills: "Skills",
+                    projects: "Projects",
+                    timeline: "Experience",
+                    contact: "Contact",
+                },
+                hero: {
+                    greeting: "Hello, I'm",
+                    name: "Nathan AVENEL",
+                    title: "Data Science & Software Design",
+                    subtitle: "I transform raw data into strategic insights and impactful visual applications.",
+                    location: "Vannes, France",
+                    contact: "Contact me",
+                    cv: "Download CV",
+                    status: "Work-study student",
+                },
+                about: {
+                    sectionTitle: "About",
+                    sectionSubtitle: "Who am I?",
+                    text: "Currently pursuing a Bachelor's in Data Science (Visualization and Decision-Making Tools track) at IUT de Vannes, I combine technical skills in statistics and programming with a business vision. My goal is to help companies leverage their data assets through the complete cycle:",
+                    cycle: ["Process (ETL, SQL)", "Analyze (Python, R)", "Deliver (Power BI, Dashboards)"],
+                    codeComment: "// nathan_avenel.js",
+                    codeContent: `const nathanAvenel = {
+  name: "Nathan AVENEL",
+  age: 21,
+  education: "BSc Data Science (VCOD)",
+  location: "Vannes, France",
+  workStudy: "NCA Environnement",
+  passions: ["Data", "WebGIS", "Design"],
+  available: true,
+};`,
+                },
+                skills: {
+                    sectionTitle: "Skills",
+                    sectionSubtitle: "My tech stack",
+                    categories: [
+                        {
+                            title: "Analysis & Statistics",
+                            icon: "bar-chart-3",
+                            items: [
+                                "Descriptive statistics",
+                                "Factorial methods (PCA, CA)",
+                                "Classification",
+                                "Modeling (Hypothesis testing, Linear regression)",
+                                "SAS",
+                                "R Studio",
+                                "Mathematical tools (probabilities, linear algebra)",
+                            ],
+                        },
+                        {
+                            title: "Business Intelligence",
+                            icon: "layout-dashboard",
+                            items: [
+                                "Power BI",
+                                "Power Query (DAX)",
+                                "R-Shiny",
+                                "Dashboards (Dash, Flask, Streamlit)",
+                                "Excel",
+                                "VBA-Excel",
+                            ],
+                        },
+                        {
+                            title: "Engineering & Databases",
+                            icon: "database",
+                            items: [
+                                "SQL / PL-SQL",
+                                "DBMS (Oracle, Access, MySQL, DBeaver)",
+                                "Modeling (Relational, Snowflake schema)",
+                                "ETL Talend",
+                                "Python libraries (pandas, polars)",
+                            ],
+                        },
+                        {
+                            title: "Development & Others",
+                            icon: "code-2",
+                            items: [
+                                "Python",
+                                "C",
+                                "HTML/CSS",
+                                "Javascript",
+                                "GIS (QGIS, WebGIS)",
+                                "GDPR",
+                                "English B2 - TOEIC 785/990",
+                            ],
+                        },
+                    ],
+                },
+                projects: {
+                    sectionTitle: "Projects",
+                    sectionSubtitle: "My work",
+                    featured: {
+                        label: "Featured Project",
+                        title: "WebGIS Application — NCA Environnement",
+                        description: "Development of a cartographic tool (WebGIS) enabling visualization of NCA's projects across France, leveraging historical data and displaying various geographic layers (municipal boundaries, watersheds).",
+                        tags: ["WebGIS", "JavaScript", "Leaflet", "Python", "SQL"],
+                    },
+                    others: [
+                        {
+                            title: "CS2 E-Sport Statistics",
+                            description: "In-depth analysis of pro matches via cross-referenced variables. 3D game scenario visualization module.",
+                            tags: ["Python", "Pandas", "awpy", "3D"],
+                        },
+                        {
+                            title: "Newcold Decision Tool",
+                            description: "Project manager (team of 6). Complex data cleaning and interactive Power BI dashboard design.",
+                            tags: ["Power BI", "DAX", "Project Management"],
+                        },
+                        {
+                            title: "Sales Efficiency Analysis",
+                            description: "Datathon for Orange Business & Groupe MAT!. Field vs web/phone performance study.",
+                            tags: ["Datathon", "Python", "Analysis"],
+                        },
+                        {
+                            title: "Case Management — Legal Aid",
+                            description: "Database and Python Streamlit app for case management and statistics.",
+                            tags: ["Streamlit", "Python", "SQL"],
+                        },
+                        {
+                            title: "Database Architecture",
+                            description: "Relational schema design, SQL and reporting on Oracle.",
+                            tags: ["Oracle", "SQL", "Modeling"],
+                        },
+                        {
+                            title: "Automated Web Scraping",
+                            description: "Python scripts for web data extraction, structuring and storage.",
+                            tags: ["Python", "BeautifulSoup", "Automation"],
+                        },
+                        {
+                            title: "Statistical Study Vannes Agglo",
+                            description: "Sphynx questionnaire and descriptive analyses.",
+                            tags: ["Sphynx", "Statistics", "R"],
+                        },
+                    ],
+                },
+                timeline: {
+                    sectionTitle: "Experience",
+                    sectionSubtitle: "My academic & professional journey",
+                    items: [
+                        {
+                            date: "Jul. 2025 — Present",
+                            title: "Data & WebGIS Work-Study",
+                            place: "NCA Environnement",
+                            description: "Internal GIS tool development, process automation, new cartographic integrations.",
+                            type: "work",
+                        },
+                        {
+                            date: "Apr. 2025 — Jun. 2025",
+                            title: "2nd Year Internship",
+                            place: "NCA Environnement",
+                            description: "Design and development of a WebGIS application for business mapping.",
+                            type: "work",
+                        },
+                        {
+                            date: "2023 — 2026",
+                            title: "BSc Data Science (VCOD)",
+                            place: "IUT de Vannes",
+                            description: "Visualization and Decision-Making Tools track.",
+                            type: "education",
+                        },
+                        {
+                            date: "2022 — 2023",
+                            title: "BSc SNIO",
+                            place: "UBS Lorient",
+                            description: "Digital systems, embedded computing.",
+                            type: "education",
+                        },
+                        {
+                            date: "2022",
+                            title: "High School Diploma",
+                            place: "Lycée Jean Macé",
+                            description: "Majors: Mathematics & Computer Science.",
+                            type: "education",
+                        },
+                        {
+                            date: "2023 & 2025",
+                            title: "Seasonal Jobs",
+                            place: "McDonald's, Celtys",
+                            description: "Seasonal work experiences.",
+                            type: "work",
+                        },
+                    ],
+                },
+                footer: {
+                    sectionTitle: "Contact",
+                    sectionSubtitle: "Let's get in touch",
+                    email: "nathaven56@gmail.com",
+                    phone: "+33 7 68 76 39 79",
+                    location: "Vannes, France",
+                    license: "Driver's License B",
+                    interests: "Interests",
+                    interestsList: ["Photography", "Computing", "Drawing", "E-Sports"],
+                    rights: "All rights reserved.",
+                },
+            },
+        };
 
-    <section id="about">
-        <h2>À propos de moi</h2>
-        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-            <p>
-                Actuellement en <strong>BUT Science des Données</strong> (Parcours Visualisation et Conception d’Outils Décisionnels) à l'IUT de Vannes, je combine des compétences techniques en statistique et programmation avec une vision business.
-            </p>
-            <br>
-            <p>
-                Mon objectif est d'aider les entreprises à valoriser leur patrimoine de données à travers le cycle complet : 
-                <strong>Traiter</strong> (ETL, SQL), <strong>Analyser</strong> (Python, R), et <strong>Restituer</strong> (Power BI, Dashboards).
-            </p>
-        </div>
-    </section>
+        // ─────────────────────────────────────────────
+        // ICON COMPONENT (Lucide)
+        // ─────────────────────────────────────────────
+        // Convert kebab-case to PascalCase (e.g. "map-pin" → "MapPin")
+        function toPascal(str) {
+            return str.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('');
+        }
 
-    <section id="skills" style="background-color: #fff;">
-        <h2>Compétences Techniques</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>Business Intelligence</h3>
-                <div class="tags">
-                    <span class="tag">Power BI</span>
-                    <span class="tag">DAX</span>
-                    <span class="tag">R-Shiny</span>
-                    <span class="tag">Tableaux de bord</span>
-                    <span class="tag">Reporting</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>Programmation & Data</h3>
-                <div class="tags">
-                    <span class="tag">Python (Scraping, Pandas)</span>
-                    <span class="tag">SQL / PL-SQL</span>
-                    <span class="tag">SAS</span>
-                    <span class="tag">RStudio</span>
-                    <span class="tag">VBA Excel</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>Gestion de Données</h3>
-                <div class="tags">
-                    <span class="tag">ETL Talend</span>
-                    <span class="tag">Oracle SGBD</span>
-                    <span class="tag">Modélisation relationnelle</span>
-                    <span class="tag">RGPD</span>
-                    <span class="tag">Qualité des données</span>
-                </div>
-            </div>
-            <div class="skill-card">
-                <h3>Soft Skills & Langues</h3>
-                <div class="tags">
-                    <span class="tag">Gestion de projet</span>
-                    <span class="tag">Anglais B2 (Technique)</span>
-                    <span class="tag">Travail en équipe</span>
-                    <span class="tag">Communication</span>
-                </div>
-            </div>
-        </div>
-    </section>
+        function Icon({ name, size = 20, className = "" }) {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current) {
+                    ref.current.innerHTML = "";
+                    // Lucide CDN uses PascalCase keys (e.g. "MapPin", "BarChart3")
+                    const pascal = toPascal(name);
+                    const icon = (lucide.icons && (lucide.icons[pascal] || lucide.icons[name])) || null;
+                    if (!icon) return;
 
-    <section id="portfolio">
-        <h2>Projets Réalisés</h2>
-        <div class="projects-grid">
+                    if (typeof icon.toSvg === "function") {
+                        // Old Lucide API
+                        ref.current.innerHTML = icon.toSvg({ width: size, height: size, class: className });
+                    } else if (typeof lucide.createElement === "function") {
+                        // New Lucide API — icon is [tag, attrs, children]
+                        const el = lucide.createElement(icon);
+                        el.setAttribute("width", String(size));
+                        el.setAttribute("height", String(size));
+                        if (className) el.setAttribute("class", className);
+                        ref.current.appendChild(el);
+                    }
+                }
+            }, [name, size, className]);
+            return React.createElement("span", { ref, className: "inline-flex items-center justify-center" });
+        }
 
-            <div class="project-card">
-                <div class="project-content">
-                    <div class="project-meta">Stage / Alternance - NCA Environnement</div>
-                    <h3>Application Webgis NCA</h3>
-                    <p>Développement d'une application cartographique permettant de visualiser les affaires en France, d'exploiter les données historiques et d'afficher diverses couches (limites communales, bassins versants, projets éoliens).</p>
-                    <div class="tags">
-                        <span class="tag">WebGIS</span>
-                        <span class="tag">Cartographie</span>
-                        <span class="tag">SIG</span>
+        // ─────────────────────────────────────────────
+        // SECTION OBSERVER (fade-in on scroll)
+        // ─────────────────────────────────────────────
+        function useInView(threshold = 0.15) {
+            const ref = useRef(null);
+            const [inView, setInView] = useState(false);
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                    ([entry]) => { if (entry.isIntersecting) setInView(true); },
+                    { threshold }
+                );
+                if (ref.current) observer.observe(ref.current);
+                return () => observer.disconnect();
+            }, []);
+            return [ref, inView];
+        }
+
+        function Section({ id, children, className = "" }) {
+            const [ref, inView] = useInView(0.1);
+            return (
+                <section
+                    id={id}
+                    ref={ref}
+                    className={`${className} transition-all duration-1000 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                >
+                    {children}
+                </section>
+            );
+        }
+
+        // ─────────────────────────────────────────────
+        // MAIN APP
+        // ─────────────────────────────────────────────
+        function App() {
+            const [lang, setLang] = useState("fr");
+            const [menuOpen, setMenuOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+            const [lightboxImg, setLightboxImg] = useState(null);
+            const t = content[lang];
+
+            useEffect(() => {
+                const onScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener("scroll", onScroll);
+                return () => window.removeEventListener("scroll", onScroll);
+            }, []);
+
+            useEffect(() => {
+                const onKey = (e) => { if (e.key === "Escape") setLightboxImg(null); };
+                window.addEventListener("keydown", onKey);
+                return () => window.removeEventListener("keydown", onKey);
+            }, []);
+
+            const toggleLang = () => setLang(l => (l === "fr" ? "en" : "fr"));
+
+            const navLinks = [
+                { href: "#about", label: t.nav.about },
+                { href: "#skills", label: t.nav.skills },
+                { href: "#projects", label: t.nav.projects },
+                { href: "#timeline", label: t.nav.timeline },
+                { href: "#contact", label: t.nav.contact },
+            ];
+
+            // ── NAVIGATION ──
+            const Navbar = () => (
+                <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "glass border-b border-slate-800/50 shadow-lg shadow-black/20" : "bg-transparent"}`}>
+                    <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+                        {/* Logo */}
+                        <a href="#" className="flex items-center gap-2 group">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center font-bold text-sm text-slate-950 group-hover:scale-110 transition-transform duration-300">
+                                NA
+                            </div>
+                            <span className="font-semibold text-slate-200 hidden sm:block">Nathan<span className="text-cyan-400">.</span></span>
+                        </a>
+
+                        {/* Desktop Links */}
+                        <div className="hidden md:flex items-center gap-8">
+                            {navLinks.map((link) => (
+                                <a key={link.href} href={link.href} className="nav-link text-sm text-slate-400 hover:text-cyan-400 transition-colors duration-300">
+                                    {link.label}
+                                </a>
+                            ))}
+                        </div>
+
+                        {/* Lang + Mobile Button */}
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={toggleLang}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-700 hover:border-cyan-500/50 text-xs font-mono font-medium text-slate-300 hover:text-cyan-400 transition-all duration-300 hover:bg-cyan-500/5"
+                                aria-label="Toggle language"
+                            >
+                                <Icon name="languages" size={14} />
+                                <span>{lang === "fr" ? "EN" : "FR"}</span>
+                            </button>
+                            <button
+                                onClick={() => setMenuOpen(!menuOpen)}
+                                className="md:hidden text-slate-300 hover:text-cyan-400 transition-colors"
+                                aria-label="Menu"
+                            >
+                                <Icon name={menuOpen ? "x" : "menu"} size={22} />
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="project-card">
-                <div class="project-content">
-                    <div class="project-meta">Datathon - Groupe Mat! & Orange Business</div>
-                    <h3>Analyse de l'efficacité commerciale</h3>
-                    <p>Étude des performances des commandes réalisées via un commercial sur place par rapport aux commandes par téléphone ou portail web.</p>
-                    <div class="tags">
-                        <span class="tag">Datathon</span>
-                        <span class="tag">Analyse de données</span>
-                        <span class="tag">Business Intelligence</span>
+                    {/* Mobile Menu */}
+                    {menuOpen && (
+                        <div className="md:hidden glass border-t border-slate-800/50 animate-fade-in">
+                            <div className="px-6 py-4 flex flex-col gap-3">
+                                {navLinks.map((link) => (
+                                    <a
+                                        key={link.href}
+                                        href={link.href}
+                                        onClick={() => setMenuOpen(false)}
+                                        className="text-sm text-slate-400 hover:text-cyan-400 transition-colors py-1"
+                                    >
+                                        {link.label}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+
+            // ── HERO ──
+            const Hero = () => (
+                <section className="relative min-h-screen flex items-center justify-center hero-grid-bg overflow-hidden">
+                    {/* Decorative orbs */}
+                    <div className="absolute top-1/4 -left-32 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-float" />
+                    <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "3s" }} />
+
+                    <div className="relative max-w-6xl mx-auto px-6 text-center">
+                        {/* Status tag */}
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-800 bg-slate-900/60 text-xs text-slate-400 mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                            {t.hero.status}
+                        </div>
+
+                        {/* Greeting */}
+                        <p className="text-slate-400 text-lg mb-3 font-light tracking-wide animate-fade-in" style={{ animationDelay: "0.4s" }}>
+                            {t.hero.greeting}
+                        </p>
+
+                        {/* Name */}
+                        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6 animate-fade-in-up" style={{ animationDelay: "0.5s" }}>
+                            <span className="gradient-text">{t.hero.name}</span>
+                        </h1>
+
+                        {/* Title */}
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-slate-200 mb-6 animate-fade-in-up" style={{ animationDelay: "0.7s" }}>
+                            {t.hero.title}
+                        </h2>
+
+                        {/* Subtitle */}
+                        <p className="max-w-2xl mx-auto text-slate-400 text-base sm:text-lg leading-relaxed mb-8 animate-fade-in-up" style={{ animationDelay: "0.9s" }}>
+                            {t.hero.subtitle}
+                        </p>
+
+                        {/* Location */}
+                        <div className="flex items-center justify-center gap-2 text-sm text-slate-500 mb-10 animate-fade-in" style={{ animationDelay: "1s" }}>
+                            <Icon name="map-pin" size={14} />
+                            <span>{t.hero.location}</span>
+                        </div>
+
+                        {/* CTA Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{ animationDelay: "1.1s" }}>
+                            <a
+                                href="#contact"
+                                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-950 font-semibold text-sm hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 hover:scale-[1.02]"
+                            >
+                                <Icon name="send" size={16} />
+                                {t.hero.contact}
+                            </a>
+                            <a
+                                href="#"
+                                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl border border-slate-700 text-slate-300 font-semibold text-sm hover:border-cyan-500/50 hover:text-cyan-400 hover:bg-cyan-500/5 transition-all duration-300"
+                            >
+                                <Icon name="download" size={16} />
+                                {t.hero.cv}
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="project-card">
-                <div class="project-content">
-                    <div class="project-meta">Projet Associatif - La maison du droit</div>
-                    <h3>Système de gestion de cas et statistiques</h3>
-                    <p>Conception d'une base de données pour les demandes de renseignements et développement d'une application Python Streamlit pour la gestion et la visualisation statistique.</p>
-                    <div class="tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Streamlit</span>
-                        <span class="tag">Base de données</span>
+                    {/* Scroll indicator */}
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in" style={{ animationDelay: "1.5s" }}>
+                        <div className="w-5 h-8 rounded-full border-2 border-slate-700 flex items-start justify-center p-1">
+                            <div className="w-1 h-2 rounded-full bg-cyan-400 animate-bounce" />
+                        </div>
                     </div>
-                </div>
-            </div>
+                </section>
+            );
 
-            <div class="project-card">
-                <div class="project-content">
-                    <div class="project-meta">Projet Académique - Programmation Web Python</div>
-                    <h3>Tracker de skins Counter Strike</h3>
-                    <p>Développement d'un outil de surveillance des cours des skins CS et création de statistiques, utilisant Python et 3 frameworks web différents.</p>
-                    <div class="tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Web</span>
-                        <span class="tag">Statistiques</span>
+            // ── ABOUT ──
+            const About = () => (
+                <Section id="about" className="py-24 sm:py-32 bg-slate-950">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <span className="text-cyan-400 font-mono text-sm tracking-wider uppercase">{t.about.sectionTitle}</span>
+                            <h2 className="text-3xl sm:text-4xl font-bold text-slate-100 mt-2">{t.about.sectionSubtitle}</h2>
+                            <div className="w-16 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto mt-4 rounded-full" />
+                        </div>
+
+                        <div className="grid lg:grid-cols-2 gap-12 items-start">
+                            {/* Text */}
+                            <div>
+                                <p className="text-slate-300 leading-relaxed text-base sm:text-lg mb-6">
+                                    {t.about.text}
+                                </p>
+                                <div className="flex flex-wrap gap-3 mb-6">
+                                    {t.about.cycle.map((item, i) => (
+                                        <span
+                                            key={i}
+                                            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 border border-slate-800 text-sm text-cyan-400 font-medium"
+                                        >
+                                            <Icon name={i === 0 ? "cog" : i === 1 ? "search" : "monitor"} size={15} />
+                                            {item}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Code card */}
+                            <div className="code-block rounded-xl p-1 pulse-glow">
+                                <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-800/60">
+                                    <div className="flex gap-1.5">
+                                        <span className="w-3 h-3 rounded-full bg-red-500/80" />
+                                        <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                                        <span className="w-3 h-3 rounded-full bg-green-500/80" />
+                                    </div>
+                                    <span className="text-slate-500 text-xs font-mono ml-2">{t.about.codeComment}</span>
+                                </div>
+                                <pre className="p-5 text-sm leading-relaxed overflow-x-auto">
+                                    <code className="font-mono">
+                                        <span className="text-blue-400">const </span>
+                                        <span className="text-cyan-300">nathanAvenel</span>
+                                        <span className="text-slate-400"> = {"{"}</span>
+                                        {"\n"}
+                                        {t.about.codeContent.split("\n").slice(1, -1).map((line, i) => {
+                                            const parts = line.trim();
+                                            if (!parts) return null;
+                                            const colonIdx = parts.indexOf(":");
+                                            if (colonIdx === -1) return <span key={i}>  {parts}{"\n"}</span>;
+                                            const key = parts.substring(0, colonIdx);
+                                            const val = parts.substring(colonIdx + 1);
+                                            return (
+                                                <span key={i}>
+                                                    {"  "}<span className="text-emerald-400">{key}</span>
+                                                    <span className="text-slate-500">:</span>
+                                                    <span className="text-amber-300">{val}</span>
+                                                    {"\n"}
+                                                </span>
+                                            );
+                                        })}
+                                        <span className="text-slate-400">{"}"};</span>
+                                    </code>
+                                </pre>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <div class="project-content">
-                    <div class="project-meta">Entreprise (Stage/Projet)</div>
-                    <h3>Mise en place d’un outil décisionnel - Newcold</h3>
-                    <p>Chef de projet pour une équipe de 6. Nettoyage de données complexes sur Excel et conception d'un tableau de bord interactif sous Power BI pour le suivi de performance.</p>
-                    <div class="tags">
-                        <span class="tag">Power BI</span>
-                        <span class="tag">Management</span>
-                        <span class="tag">Excel</span>
+                </Section>
+            );
+
+            // ── SKILLS ──
+            const Skills = () => (
+                <Section id="skills" className="py-24 sm:py-32 bg-slate-900/40">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <span className="text-cyan-400 font-mono text-sm tracking-wider uppercase">{t.skills.sectionTitle}</span>
+                            <h2 className="text-3xl sm:text-4xl font-bold text-slate-100 mt-2">{t.skills.sectionSubtitle}</h2>
+                            <div className="w-16 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto mt-4 rounded-full" />
+                        </div>
+
+                        <div className="grid sm:grid-cols-2 gap-6">
+                            {t.skills.categories.map((cat, idx) => (
+                                <div
+                                    key={idx}
+                                    className="card-hover group rounded-2xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8"
+                                >
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 transition-colors duration-300">
+                                            <Icon name={cat.icon} size={20} />
+                                        </div>
+                                        <h3 className="text-lg font-semibold text-slate-100">{cat.title}</h3>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {cat.items.map((item, i) => (
+                                            <span
+                                                key={i}
+                                                className="badge-tech px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/50 text-xs text-slate-300 font-medium"
+                                            >
+                                                {item}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </div>
+                </Section>
+            );
 
-            <div class="project-card">
-                <div class="project-content">
-                    <div class="project-meta">Projet Académique (SAÉ 3.VCOD.01)</div>
-                    <h3>Collecte automatisée de données Web</h3>
-                    <p>Développement de scripts Python pour l'extraction automatique de données (Web Scraping), structuration et stockage pour analyse ultérieure.</p>
-                    <div class="tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Web Scraping</span>
-                        <span class="tag">Automatisation</span>
+            // ── PROJECTS ──
+            const Projects = () => (
+                <Section id="projects" className="py-24 sm:py-32 bg-slate-950">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <span className="text-cyan-400 font-mono text-sm tracking-wider uppercase">{t.projects.sectionTitle}</span>
+                            <h2 className="text-3xl sm:text-4xl font-bold text-slate-100 mt-2">{t.projects.sectionSubtitle}</h2>
+                            <div className="w-16 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto mt-4 rounded-full" />
+                        </div>
+
+                        {/* Featured Project */}
+                        <div className="mb-16 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-900/95 to-cyan-950/20 overflow-hidden card-hover">
+                            <div className="grid lg:grid-cols-5 gap-0">
+                                {/* Text */}
+                                <div className="lg:col-span-3 p-8 sm:p-10 flex flex-col justify-center">
+                                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs w-fit mb-4">
+                                        <Icon name="star" size={12} />
+                                        {t.projects.featured.label}
+                                    </span>
+                                    <h3 className="text-2xl sm:text-3xl font-bold text-slate-100 mb-4">{t.projects.featured.title}</h3>
+                                    <p className="text-slate-400 leading-relaxed mb-6">{t.projects.featured.description}</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {t.projects.featured.tags.map((tag, i) => (
+                                            <span key={i} className="px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-xs font-medium text-cyan-400">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Image placeholder grid */}
+                                <div className="lg:col-span-2 p-6 sm:p-8 flex flex-col gap-4">
+                                    <div className="flex-1 rounded-xl bg-slate-800/50 border border-slate-700/50 overflow-hidden group min-h-[140px] cursor-pointer" onClick={() => setLightboxImg("webgis_map_view.png")}>
+                                        <img src="webgis_map_view.png" alt="WebGIS Map View — Vue cartographique des affaires NCA" className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105" />
+                                    </div>
+                                    <div className="flex-1 rounded-xl bg-slate-800/50 border border-slate-700/50 overflow-hidden group min-h-[140px] cursor-pointer" onClick={() => setLightboxImg("webgis_layers.png")}>
+                                        <img src="webgis_layers.png" alt="WebGIS Layers — Couches géographiques (bassins versants, limites communales)" className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Other Projects Grid */}
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {t.projects.others.map((project, idx) => (
+                                <div
+                                    key={idx}
+                                    className="card-hover group rounded-2xl border border-slate-800 bg-slate-900/60 p-6"
+                                >
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/10 group-hover:border-cyan-500/30 transition-all duration-300">
+                                            <Icon name="folder" size={18} />
+                                        </div>
+                                        <Icon name="arrow-up-right" size={16} className="text-slate-600 group-hover:text-cyan-400 transition-colors" />
+                                    </div>
+                                    <h4 className="text-base font-semibold text-slate-100 mb-2 group-hover:text-cyan-400 transition-colors duration-300">{project.title}</h4>
+                                    <p className="text-slate-400 text-sm leading-relaxed mb-4">{project.description}</p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {project.tags.map((tag, i) => (
+                                            <span key={i} className="px-2 py-1 rounded-md bg-slate-800/80 border border-slate-700/50 text-[11px] text-slate-500 font-mono">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </div>
+                </Section>
+            );
 
-            <div class="project-card">
-                <div class="project-content">
-                    <div class="project-meta">Partenariat Vannes Agglo (SAÉ 1.06)</div>
-                    <h3>Étude statistique par enquête</h3>
-                    <p>Réalisation d'un questionnaire via Sphynx, collecte des réponses et analyses descriptives pour fournir des indicateurs clés à l'agglomération.</p>
-                    <div class="tags">
-                        <span class="tag">Statistiques descriptives</span>
-                        <span class="tag">Sphynx</span>
-                        <span class="tag">Analyse d'enquête</span>
+            // ── TIMELINE ──
+            const Timeline = () => (
+                <Section id="timeline" className="py-24 sm:py-32 bg-slate-900/40">
+                    <div className="max-w-4xl mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <span className="text-cyan-400 font-mono text-sm tracking-wider uppercase">{t.timeline.sectionTitle}</span>
+                            <h2 className="text-3xl sm:text-4xl font-bold text-slate-100 mt-2">{t.timeline.sectionSubtitle}</h2>
+                            <div className="w-16 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto mt-4 rounded-full" />
+                        </div>
+
+                        <div className="relative">
+                            {/* Vertical line */}
+                            <div className="absolute left-4 sm:left-1/2 sm:-translate-x-px top-0 bottom-0 w-0.5 timeline-line" />
+
+                            <div className="space-y-12">
+                                {t.timeline.items.map((item, idx) => {
+                                    const isLeft = idx % 2 === 0;
+                                    return (
+                                        <div key={idx} className={`relative flex items-start gap-6 sm:gap-0 ${isLeft ? "sm:flex-row" : "sm:flex-row-reverse"}`}>
+                                            {/* Dot */}
+                                            <div className="absolute left-4 sm:left-1/2 sm:-translate-x-1/2 w-3 h-3 rounded-full bg-cyan-400 border-4 border-slate-950 z-10 mt-1.5" />
+
+                                            {/* Content */}
+                                            <div className={`ml-12 sm:ml-0 sm:w-1/2 ${isLeft ? "sm:pr-12 sm:text-right" : "sm:pl-12"}`}>
+                                                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono mb-2 ${item.type === "work" ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" : "bg-blue-500/10 text-blue-400 border border-blue-500/20"}`}>
+                                                    <Icon name={item.type === "work" ? "briefcase" : "graduation-cap"} size={12} />
+                                                    {item.date}
+                                                </div>
+                                                <h3 className="text-lg font-semibold text-slate-100">{item.title}</h3>
+                                                <p className="text-cyan-400 text-sm font-medium mb-1">{item.place}</p>
+                                                <p className="text-slate-400 text-sm leading-relaxed">{item.description}</p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </Section>
+            );
 
-            <div class="project-card">
-                <div class="project-content">
-                    <div class="project-meta">Projet Technique (SAÉ 2.01/1.01)</div>
-                    <h3>Architecture de Base de Données</h3>
-                    <p>Conception du schéma relationnel, implémentation SQL et création de reportings basés sur les données extraites du SGBD.</p>
-                    <div class="tags">
-                        <span class="tag">SQL</span>
-                        <span class="tag">Modélisation</span>
-                        <span class="tag">Reporting</span>
+            // ── FOOTER / CONTACT ──
+            const Footer = () => (
+                <Section id="contact" className="py-24 sm:py-32 bg-slate-950 border-t border-slate-800/50">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <span className="text-cyan-400 font-mono text-sm tracking-wider uppercase">{t.footer.sectionTitle}</span>
+                            <h2 className="text-3xl sm:text-4xl font-bold text-slate-100 mt-2">{t.footer.sectionSubtitle}</h2>
+                            <div className="w-16 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto mt-4 rounded-full" />
+                        </div>
+
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                            {/* Email */}
+                            <a href={`mailto:${t.footer.email}`} className="card-hover flex items-center gap-4 p-5 rounded-2xl border border-slate-800 bg-slate-900/60 group">
+                                <div className="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                                    <Icon name="mail" size={20} />
+                                </div>
+                                <div>
+                                    <p className="text-slate-500 text-xs">Email</p>
+                                    <p className="text-slate-200 text-sm font-medium">{t.footer.email}</p>
+                                </div>
+                            </a>
+                            {/* Phone */}
+                            <a href={`tel:${t.footer.phone}`} className="card-hover flex items-center gap-4 p-5 rounded-2xl border border-slate-800 bg-slate-900/60 group">
+                                <div className="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                                    <Icon name="phone" size={20} />
+                                </div>
+                                <div>
+                                    <p className="text-slate-500 text-xs">{lang === "fr" ? "Téléphone" : "Phone"}</p>
+                                    <p className="text-slate-200 text-sm font-medium">{t.footer.phone}</p>
+                                </div>
+                            </a>
+                            {/* Location */}
+                            <div className="card-hover flex items-center gap-4 p-5 rounded-2xl border border-slate-800 bg-slate-900/60 group">
+                                <div className="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                                    <Icon name="map-pin" size={20} />
+                                </div>
+                                <div>
+                                    <p className="text-slate-500 text-xs">{lang === "fr" ? "Localisation" : "Location"}</p>
+                                    <p className="text-slate-200 text-sm font-medium">{t.footer.location}</p>
+                                </div>
+                            </div>
+                            {/* License */}
+                            <div className="card-hover flex items-center gap-4 p-5 rounded-2xl border border-slate-800 bg-slate-900/60 group">
+                                <div className="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                                    <Icon name="car" size={20} />
+                                </div>
+                                <div>
+                                    <p className="text-slate-500 text-xs">{lang === "fr" ? "Véhicule" : "Vehicle"}</p>
+                                    <p className="text-slate-200 text-sm font-medium">{t.footer.license}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Links & Interests */}
+                        <div className="grid sm:grid-cols-2 gap-8 mb-16">
+                            {/* Social Links */}
+                            <div className="flex flex-col gap-4">
+                                <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">Liens</h4>
+                                <div className="flex flex-wrap gap-3">
+                                    <a href="https://github.com/Nakann" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900/60 text-sm text-slate-300 hover:text-cyan-400 hover:border-cyan-500/30 transition-all duration-300 group">
+                                        <Icon name="github" size={16} />
+                                        GitHub
+                                    </a>
+                                    <a href="#" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900/60 text-sm text-slate-300 hover:text-cyan-400 hover:border-cyan-500/30 transition-all duration-300 group">
+                                        <Icon name="linkedin" size={16} />
+                                        LinkedIn
+                                    </a>
+                                    <a href="https://nakann.github.io/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900/60 text-sm text-slate-300 hover:text-cyan-400 hover:border-cyan-500/30 transition-all duration-300 group">
+                                        <Icon name="globe" size={16} />
+                                        {lang === "fr" ? "Site Web" : "Website"}
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Interests */}
+                            <div className="flex flex-col gap-4">
+                                <h4 className="text-sm font-semibold text-slate-300 uppercase tracking-wider">{t.footer.interests}</h4>
+                                <div className="flex flex-wrap gap-3">
+                                    {t.footer.interestsList.map((interest, i) => {
+                                        const icons = ["camera", "monitor", "pen-tool", "gamepad-2"];
+                                        return (
+                                            <span key={i} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-900/60 text-sm text-slate-400">
+                                                <Icon name={icons[i]} size={15} className="text-cyan-500/60" />
+                                                {interest}
+                                            </span>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Bottom bar */}
+                        <div className="border-t border-slate-800/50 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+                            <div className="flex items-center gap-2">
+                                <div className="w-6 h-6 rounded-md bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-[10px] font-bold text-slate-950">NA</div>
+                                <span>© 2025 Nathan AVENEL. {t.footer.rights}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 font-mono text-xs text-slate-400">
+                                <Icon name="sparkles" size={12} />
+                                <span>{lang === "fr" ? "Conçu avec" : "Built with"} Claude Opus 4.6</span>
+                            </div>
+                        </div>
                     </div>
+                </Section>
+            );
+
+            // ── RENDER ──
+            return (
+                <div className="bg-slate-950 min-h-screen">
+                    <Navbar />
+                    <Hero />
+                    <About />
+                    <Skills />
+                    <Projects />
+                    <Timeline />
+                    <Footer />
+
+                    {/* Lightbox Modal */}
+                    {lightboxImg && (
+                        <div
+                            className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in cursor-pointer"
+                            onClick={() => setLightboxImg(null)}
+                        >
+                            <button
+                                onClick={(e) => { e.stopPropagation(); setLightboxImg(null); }}
+                                className="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-300 z-10"
+                                aria-label="Fermer"
+                            >
+                                <Icon name="x" size={22} />
+                            </button>
+                            <img
+                                src={lightboxImg}
+                                alt=""
+                                className="max-w-[90vw] max-h-[90vh] rounded-2xl shadow-2xl shadow-black/50 border border-slate-700/50 cursor-default"
+                                style={{ animation: "fadeInUp 0.3s ease-out" }}
+                                onClick={(e) => e.stopPropagation()}
+                            />
+                        </div>
+                    )}
                 </div>
-            </div>
+            );
+        }
 
-        </div>
-    </section>
-
-    <section id="perso" style="background-color: #fff;">
-        <h2>Projets Personnels</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-content">
-                    <div class="project-meta">Projet Personnel</div>
-                    <h3>Application de Statistiques CS2</h3>
-                    <p>Analyse approfondie de matchs professionnels par croisement de variables pour identifier des corrélations tactiques. Développement d'un module de visualisation de scénarios de jeu en 3D pour une analyse spatiale des actions.</p>
-                    <div class="tags">
-                        <span class="tag">Data Analysis</span>
-                        <span class="tag">Python (Pandas, awpy)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="parcours">
-        <h2>Mon Parcours</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="date">Juillet 2025 - Aujourd'hui</div>
-                <div class="job-title">Alternance Data & WebGIS</div>
-                <p>NCA Environnement. Amélioration de l'application WebGIS de visualisation d'affaires, intégration de nouvelles données cartographiques (limites communales, bassins versants, éolien) et capitalisation sur les affaires précédentes.</p>
-            </div>
-            <div class="timeline-item">
-                <div class="date">Avril 2025 - Juin 2025</div>
-                <div class="job-title">Stage de 2ème année</div>
-                <p>NCA Environnement. Conception et développement d'une application WebGIS permettant de cartographier et suivre les affaires en France.</p>
-            </div>
-            <div class="timeline-item">
-                <div class="date">2023 - 2026 (En cours)</div>
-                <div class="job-title">BUT Science des Données (VCOD)</div>
-                <p>IUT de Vannes. Spécialisation en visualisation, conception d'outils décisionnels, Big Data et programmation statistique.</p>
-            </div>
-            <div class="timeline-item">
-                <div class="date">2022 - 2023</div>
-                <div class="job-title">Licence SNIO</div>
-                <p>UBS Lorient. Systèmes numériques et informatique embarquée.</p>
-            </div>
-            <div class="timeline-item">
-                <div class="date">Expériences Saisonnières</div>
-                <div class="job-title">Équipier Polyvalent & Agent de Conditionnement</div>
-                <p>McDonald's (Lanester) & Celtys. Développement de l'adaptabilité et du travail en équipe sous pression.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer id="contact">
-        <h2>Restons en contact</h2>
-        <div class="contact-info">
-            <span>📧 nathaven56@gmail.com</span>
-            <span>📞 +33 7 68 76 39 79</span>
-            <span>📍 Vannes, France</span>
-            <span>🚗 Permis B</span>
-        </div>
-        <div style="margin-top: 2rem; font-size: 0.8rem; color: #aaa;">
-            2026 Nathan Avenel
-        </div>
-    </footer>
-
+        // Mount the app
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />);
+    </script>
 </body>
+
 </html>
